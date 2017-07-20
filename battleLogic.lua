@@ -2,8 +2,8 @@
 	zhandouluoji putong gongji
 ]]
 
-local army_list = {{100,20,200,80,10},{100,20,400,80,10},{200,20,200,80,10},{80,20,100,80,10},{250,20,100,80,10},{300,20,600,80,10}} 			--attack defend blood hit dodoge
-local enemy_list = {{80,20,200,80,10},{80,20,400,80,10},{150,20,200,80,10},{80,20,100,80,10},{150,20,100,80,10},{200,20,600,80,10}} 
+local army_list = {{100,20,200,80,10},{100,20,400,80,10},{200,20,200,80,10},0,0,0} 			--attack defend blood hit dodoge
+local enemy_list = {{80,20,200,80,10},{80,20,400,80,10},{150,20,200,80,10},{80,20,100,80,10},{250,20,100,80,10},{300,20,600,80,10}} 
 local index = 1
 local isEnd = false, str
 
@@ -18,7 +18,7 @@ end
 
 local function isDead(list)
 	for i = 1, #list do
-		if list[i][3] > 0 then
+		if list[i] ~= 0 and list[i][3] > 0 then
 			return false
 		end
 	end
@@ -44,12 +44,12 @@ local function findTarget(self, list, pos)
 	if pos > 3 then pos = pos - 3 end
 
 	local function getTargetFromData(num, beginIndex, endIndex)
-		if list[num][3] > 0 then
+		if list[num] ~= 0 and list[num][3] > 0 then
 			return list[num]
 		else
 			for i = beginIndex, endIndex do
-				if i ~= num and list[num][3] > 0 then
-					return list[num]
+				if i ~= num and list[i] ~= 0 and list[i][3] > 0  then
+					return list[i]
 				end
 			end
 		end
@@ -87,7 +87,7 @@ end
 
 -- army start attack
 local function roleAttack(selfList, enemyList, isMy)
-	if selfList[index][3] <= 0 then
+	if selfList[index] == 0 or selfList[index][3] <= 0 then
 		return
 	end
 
